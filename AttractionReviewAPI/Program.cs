@@ -1,3 +1,4 @@
+using AttractionReviewAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace AttractionReviewAPI;
@@ -18,6 +19,9 @@ public class Program
         builder.Services.AddDbContext<APIDBContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
 
+        builder.Services.AddScoped<IAttractionRepository, AttractionRepository>();
+        builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -30,8 +34,8 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
-
+        
+        
         app.MapControllers();
 
         app.Run();

@@ -108,3 +108,4 @@
 /Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/obj/Debug/net8.0/AttractionReviewAPI.pdb
 /Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/obj/Debug/net8.0/AttractionReviewAPI.genruntimeconfig.cache
 /Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/obj/Debug/net8.0/ref/AttractionReviewAPI.dll
+/Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/obj/Debug/net8.0/AttractionReviewAPI.sourcelink.json
