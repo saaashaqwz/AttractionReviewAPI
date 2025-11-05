@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "pEWyaRdR25M=",
+  "dgSpecHash": "vIODyJUzbKQ=",
   "success": true,
   "projectFilePath": "/Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/AttractionReviewAPI.csproj",
   "expectedPackageFiles": [
+    "/Users/saaashaqwz/.nuget/packages/automapper/15.1.0/automapper.15.1.0.nupkg.sha512",
     "/Users/saaashaqwz/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/saaashaqwz/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/Users/saaashaqwz/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.3/microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",
@@ -28,6 +29,10 @@
     "/Users/saaashaqwz/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.2/microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512",
     "/Users/saaashaqwz/.nuget/packages/microsoft.extensions.options/8.0.2/microsoft.extensions.options.8.0.2.nupkg.sha512",
     "/Users/saaashaqwz/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
+    "/Users/saaashaqwz/.nuget/packages/microsoft.identitymodel.abstractions/8.14.0/microsoft.identitymodel.abstractions.8.14.0.nupkg.sha512",
+    "/Users/saaashaqwz/.nuget/packages/microsoft.identitymodel.jsonwebtokens/8.14.0/microsoft.identitymodel.jsonwebtokens.8.14.0.nupkg.sha512",
+    "/Users/saaashaqwz/.nuget/packages/microsoft.identitymodel.logging/8.14.0/microsoft.identitymodel.logging.8.14.0.nupkg.sha512",
+    "/Users/saaashaqwz/.nuget/packages/microsoft.identitymodel.tokens/8.14.0/microsoft.identitymodel.tokens.8.14.0.nupkg.sha512",
     "/Users/saaashaqwz/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
     "/Users/saaashaqwz/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/Users/saaashaqwz/.nuget/packages/npgsql/8.0.6/npgsql.8.0.6.nupkg.sha512",

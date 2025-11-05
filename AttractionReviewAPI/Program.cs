@@ -1,4 +1,6 @@
+using AttractionReviewAPI.Profiles;
 using AttractionReviewAPI.Repositories;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace AttractionReviewAPI;
@@ -19,8 +21,19 @@ public class Program
         builder.Services.AddDbContext<APIDBContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
 
+        ILoggerFactory factory = new LoggerFactory();
+        
         builder.Services.AddScoped<IAttractionRepository, AttractionRepository>();
         builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+        
+        builder.Services.AddSingleton<IMapper>(_ =>
+        {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<ReviewProfile>();
+            }, factory);
+            return configuration.CreateMapper();
+        });
         
         var app = builder.Build();
 
@@ -30,12 +43,12 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
         
-        
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
         app.MapControllers();
 
         app.Run();

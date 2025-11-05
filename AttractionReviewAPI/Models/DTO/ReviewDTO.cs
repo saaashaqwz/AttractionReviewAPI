@@ -1,6 +1,6 @@
-namespace AttractionReviewAPI;
+namespace AttractionReviewAPI.DTO;
 
-public class Review
+public class ReviewDTO
 {
     public int Id { get; set; }
     public string Title { get; set; } = null!;
@@ -10,5 +10,5 @@ public class Review
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     
     public int AttractionId { get; set; }
-    public Attraction Attraction { get; set; } = null!;
+    public AttractionDTO? Attraction { get; set; }
 }
