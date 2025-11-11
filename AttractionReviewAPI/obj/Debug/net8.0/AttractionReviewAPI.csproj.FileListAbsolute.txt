@@ -109,3 +109,8 @@
 /Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/obj/Debug/net8.0/AttractionReviewAPI.genruntimeconfig.cache
 /Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/obj/Debug/net8.0/ref/AttractionReviewAPI.dll
 /Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/obj/Debug/net8.0/AttractionReviewAPI.sourcelink.json
+/Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/bin/Debug/net8.0/AutoMapper.dll
+/Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/saaashaqwz/RiderProjects/AttractionReviewAPI/AttractionReviewAPI/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll

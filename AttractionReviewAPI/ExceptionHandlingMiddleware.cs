@@ -14,7 +14,7 @@ public class ExceptionHandlingMiddleware
         _logger = logger;
     }
 
-    public void Invoke(HttpContext context)
+    public async Task InvokeAsync(HttpContext context)
     {
         try
         {
@@ -22,17 +22,17 @@ public class ExceptionHandlingMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "произошло необработанное исключение: {Message}", ex.Message);
-            HandleException(context, ex);
+            _logger.LogError(ex, "Произошло необработанное исключение: {Message}", ex.Message);
+            await HandleException(context, ex);
         }
     }
 
-    private void HandleException(HttpContext context, Exception exception)
+    private async Task HandleException(HttpContext context, Exception exception)
     {
         context.Response.ContentType = "application/json";
         
         var response = new ApiResponse<object>(
-            message: "произошло необработанное исключение",
+            message: "Произошло необработанное исключение",
             errorCode: "INTERNAL_ERROR");
 
         HttpStatusCode statusCode = HttpStatusCode.InternalServerError; // 500
@@ -41,7 +41,7 @@ public class ExceptionHandlingMiddleware
         {
             case KeyNotFoundException:
                 statusCode = HttpStatusCode.NotFound;
-                response.Message = "запрошенный ресурс не найден";
+                response.Message = "Запрошенный ресурс не найден";
                 response.ErrorCode = "NOT_FOUND";
                 break;
 
@@ -54,7 +54,7 @@ public class ExceptionHandlingMiddleware
 
             case UnauthorizedAccessException:
                 statusCode = HttpStatusCode.Unauthorized;
-                response.Message = "доступ запрещен";
+                response.Message = "Доступ запрещен";
                 response.ErrorCode = "UNAUTHORIZED";
                 break;
         }
@@ -67,6 +67,6 @@ public class ExceptionHandlingMiddleware
             WriteIndented = true
         });
 
-        context.Response.WriteAsync(json);
+        await context.Response.WriteAsync(json);
     }
 }

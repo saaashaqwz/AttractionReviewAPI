@@ -9,4 +9,5 @@ public interface IReviewService
     ReviewDTO CreateReview(CreateReviewDTO createReviewDTO);
     ReviewDTO UpdateReview(int id, UpdateReviewDTO updateReviewDTO);
     bool DeleteReview(int id);
+    IEnumerable<ReviewDTO> GetByAttraction(int attractionId);
 }
