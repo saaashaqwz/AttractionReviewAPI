@@ -48,7 +48,6 @@ public class AttractionService : IAttractionService
         var attraction = _attractionRepository.GetById(id);
         return attraction == null ? null : MapToAttractionDTO(attraction);
     }
-
     
     // <summary>
     // создает новую достопримечательность
@@ -79,7 +78,7 @@ public class AttractionService : IAttractionService
     public AttractionDTO UpdateAttraction(int id, CreateAttractionDTO updateAttractionDTO)
     {
         var attraction = _attractionRepository.GetById(id);
-        if (attraction == null) 
+        if (attraction == null)
             return null;
 
         if (attraction.Name != updateAttractionDTO.Name &&

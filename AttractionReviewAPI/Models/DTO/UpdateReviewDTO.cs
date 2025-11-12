@@ -18,7 +18,7 @@ public class UpdateReviewDTO
     public int Rating { get; set; } 
     
     [Required (ErrorMessage = "автор не может быть пустым")]
-    [MinLength(20, ErrorMessage = "автор должен содержать от 20 символов")]
+    [MinLength(10, ErrorMessage = "автор должен содержать от 10 символов")]
     public string Author { get; set; } = null!;
     
     public int AttractionId { get; set; } 

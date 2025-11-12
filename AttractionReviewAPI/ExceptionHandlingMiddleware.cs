@@ -18,7 +18,7 @@ public class ExceptionHandlingMiddleware
     {
         try
         {
-            _next(context);
+            await _next(context);
         }
         catch (Exception ex)
         {
@@ -30,12 +30,12 @@ public class ExceptionHandlingMiddleware
     private async Task HandleException(HttpContext context, Exception exception)
     {
         context.Response.ContentType = "application/json";
-        
+
         var response = new ApiResponse<object>(
             message: "Произошло необработанное исключение",
             errorCode: "INTERNAL_ERROR");
 
-        HttpStatusCode statusCode = HttpStatusCode.InternalServerError; // 500
+        HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
 
         switch (exception)
         {
@@ -57,10 +57,16 @@ public class ExceptionHandlingMiddleware
                 response.Message = "Доступ запрещен";
                 response.ErrorCode = "UNAUTHORIZED";
                 break;
+
+            default:
+                statusCode = HttpStatusCode.InternalServerError;
+                response.Message = "Внутренняя ошибка сервера";
+                response.ErrorCode = "INTERNAL_ERROR";
+                break;
         }
 
         context.Response.StatusCode = (int)statusCode;
-        
+
         var json = JsonSerializer.Serialize(response, new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,

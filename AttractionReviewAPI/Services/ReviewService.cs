@@ -126,8 +126,15 @@ public class ReviewService : IReviewService
     // <param name="id">идентификатор отзыва для удаления</param>
     public bool DeleteReview(int id) => _reviewRepository.Delete(id);
 
+    // <summary>
+    // получает отзыв по идентификатору достопримечательности
+    // </summary>
+    // <param name="attractionId">идентификатор достопримечательности</param>
     public IEnumerable<ReviewDTO> GetByAttraction(int attractionId)
     {
+        if (!_attractionRepository.Exists(attractionId))
+            return null;
+
         var reviews = _reviewRepository.GetReviewByAttraction(attractionId);
         return reviews.Select(MapToReviewDTO);
     }

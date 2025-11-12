@@ -11,20 +11,17 @@ namespace AttractionReviewAPI.Controllers
     public class AttractionsController : ControllerBase
     {
         private readonly IAttractionService _attractionService;
-        private readonly IMapper _mapper;
 
-        public AttractionsController(IAttractionService attractionService, IMapper mapper)
+        public AttractionsController(IAttractionService attractionService)
         {
             _attractionService = attractionService;
-            _mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<AttractionDTO>> GetAll()
         {
             var attractions = _attractionService.GetAllAttractions();
-            var attractionDTOs = _mapper.Map<IEnumerable<AttractionDTO>>(attractions);
-            return Ok(attractionDTOs);
+            return Ok(attractions);
         }
 
         [HttpGet("{id}")]
@@ -32,47 +29,32 @@ namespace AttractionReviewAPI.Controllers
         {
             var attraction = _attractionService.GetByIdAttraction(id);
             if (attraction == null)
-            {
-                return NotFound($"Достопримечательность с ID {id} не найден");
-            }
-            var attractionDTO = _mapper.Map<AttractionDTO>(attraction);
-            return Ok(attractionDTO);
+                return NotFound(new { Success = false, ErrorMessage = $"Достопримечательность с ID {id} не найдена" });
+            
+            return Ok(attraction);
         }
 
         [HttpPost]
         public ActionResult<AttractionDTO> Create([FromBody] CreateAttractionDTO createAttractionDTO)
         {
-            try
-            {
-                var attraction = _attractionService.CreateAttraction(createAttractionDTO);
-                var attractionDTO = _mapper.Map<AttractionDTO>(attraction);
-                return CreatedAtAction(nameof(GetById), new { id = attractionDTO.Id }, attractionDTO);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var attraction = _attractionService.CreateAttraction(createAttractionDTO);
+            return CreatedAtAction(nameof(GetById), new { id = attraction.Id }, attraction);
         }
 
         [HttpPut("{id}")]
         public ActionResult<AttractionDTO> Update(int id, [FromBody] CreateAttractionDTO updateAttractionDTO)
         {
-            try
-            {
-                if (updateAttractionDTO == null)
-                    return BadRequest("Данные для обновления не могут быть пустыми");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-                var updatedAttraction = _attractionService.UpdateAttraction(id, updateAttractionDTO);
-                if (updatedAttraction == null)
-                    return NotFound($"Достопримечательность с ID {id} не найден");
+            var updated = _attractionService.UpdateAttraction(id, updateAttractionDTO);
+            if (updated == null)
+                return NotFound(new { Success = false, ErrorMessage = $"Достопримечательность с ID {id} не найдена" });
 
-                var updatedAttractionDto = _mapper.Map<ReviewDTO>(updatedAttraction);
-                return Ok(updatedAttractionDto);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]
@@ -80,9 +62,7 @@ namespace AttractionReviewAPI.Controllers
         {
             var result = _attractionService.DeleteAttraction(id);
             if (!result)
-            {
-                return NotFound($"Достопримечательность с ID {id} не найден");
-            }
+                return NotFound(new { Success = false, ErrorMessage = $"Достопримечательность с ID {id} не найдена" });
             return NoContent();
         }
     }
