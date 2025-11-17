@@ -1,8 +1,11 @@
+using System.Text;
 using AttractionReviewAPI.Profiles;
 using AttractionReviewAPI.Repositories;
 using AttractionReviewAPI.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AttractionReviewAPI;
 
@@ -12,8 +15,37 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
+        builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection("Jwt"));
+        
+        var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtConfiguration>();
+        var secretKey = Encoding.ASCII.GetBytes(jwtSettings.SecretKey);
 
+        builder.Services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(opt =>
+            {
+                opt.RequireHttpsMetadata = false;
+                opt.SaveToken = true;
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+                        
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtSettings.Issuer,
+                        
+                    ValidateAudience = true,
+                    ValidAudience = jwtSettings.Audience,
+                        
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+        
+        // Add services to the container.
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
