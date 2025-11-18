@@ -56,6 +56,7 @@ public class Program
         
         builder.Services.AddScoped<IAttractionRepository, AttractionRepository>();
         builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
         
         ILoggerFactory factory = new LoggerFactory();
         builder.Services.AddSingleton<IMapper>(_ =>
@@ -69,6 +70,7 @@ public class Program
         
         builder.Services.AddScoped<IAttractionService, AttractionService>();
         builder.Services.AddScoped<IReviewService, ReviewService>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
         
         var app = builder.Build();
 
@@ -80,7 +82,7 @@ public class Program
         }
         
         app.UseHttpsRedirection();
-
+        app.UseAuthentication();
         app.UseAuthorization();
         
         app.UseMiddleware<ExceptionHandlingMiddleware>();

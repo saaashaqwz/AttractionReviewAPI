@@ -3,6 +3,7 @@ using AttractionReviewAPI.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AttractionReviewAPI.Controllers
 {
@@ -17,6 +18,7 @@ namespace AttractionReviewAPI.Controllers
             _attractionService = attractionService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult<IEnumerable<AttractionDTO>> GetAll()
         {
@@ -24,6 +26,7 @@ namespace AttractionReviewAPI.Controllers
             return Ok(attractions);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public ActionResult<AttractionDTO> GetById(int id)
         {
@@ -34,6 +37,7 @@ namespace AttractionReviewAPI.Controllers
             return Ok(attraction);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<AttractionDTO> Create([FromBody] CreateAttractionDTO createAttractionDTO)
         {
@@ -44,6 +48,7 @@ namespace AttractionReviewAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = attraction.Id }, attraction);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public ActionResult<AttractionDTO> Update(int id, [FromBody] CreateAttractionDTO updateAttractionDTO)
         {
@@ -57,6 +62,7 @@ namespace AttractionReviewAPI.Controllers
             return Ok(updated);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

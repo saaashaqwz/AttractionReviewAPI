@@ -3,6 +3,7 @@ using AttractionReviewAPI.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AttractionReviewAPI.Controllers
 {
@@ -17,6 +18,7 @@ namespace AttractionReviewAPI.Controllers
             _reviewService = reviewService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult<IEnumerable<ReviewDTO>> GetAll()
         {
@@ -24,6 +26,7 @@ namespace AttractionReviewAPI.Controllers
             return Ok(reviews);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public ActionResult<ReviewDTO> GetById(int id)
         {
@@ -33,6 +36,7 @@ namespace AttractionReviewAPI.Controllers
             return Ok(review);
         }
 
+        [AllowAnonymous]
         [HttpGet("attraction/{attractionId}")]
         public ActionResult<IEnumerable<ReviewDTO>> GetByAttraction(int attractionId)
         {
@@ -42,6 +46,7 @@ namespace AttractionReviewAPI.Controllers
             return Ok(reviews);
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpPost]
         public ActionResult<ReviewDTO> Create([FromBody] CreateReviewDTO createReviewDTO)
         {
@@ -52,6 +57,7 @@ namespace AttractionReviewAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = review.Id }, review);
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpPut("{id}")]
         public ActionResult<ReviewDTO> Update(int id, [FromBody] UpdateReviewDTO updateReviewDTO)
         {
@@ -64,6 +70,7 @@ namespace AttractionReviewAPI.Controllers
             return Ok(updated);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

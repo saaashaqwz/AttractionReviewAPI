@@ -1,10 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using AttractionReviewAPI.DTO;
 using AttractionReviewAPI.Repositories;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -22,6 +20,10 @@ public class AuthService : IAuthService
         _userRepository = userRepository;
     }
     
+    // <summary>
+    // регистрация нового пользователя
+    // </summary>
+    // <param name="registerRequestDTO">данные для регистрации пользователя</param>
     public AuthResponseDTO Register(RegisterRequestDTO registerRequestDTO)
     {
         try
@@ -82,6 +84,10 @@ public class AuthService : IAuthService
         }
     }
 
+    // <summary>
+    // аутентификация пользователя
+    // </summary>
+    // <param name="loginRequestDTO">данные для входа (email/username и пароль)</param>
     public AuthResponseDTO Login(LoginRequestDTO loginRequestDTO)
     {
         try
@@ -140,7 +146,23 @@ public class AuthService : IAuthService
             };
         }
     }
+    
+    // <summary>
+    // хэширование пароля
+    // </summary>
+    // <param name="password">пароль в чистом виде</param>
+    private string GetHashPassword(string password)
+    {
+        byte[] bytepass = Encoding.ASCII.GetBytes(password);
+        var hashBytes = System.Security.Cryptography.SHA256.HashData(bytepass);
+        
+        return Convert.ToBase64String(hashBytes);
+    }
 
+    // <summary>
+    // обновление JWT токена с использованием refresh token
+    // </summary>
+    // <param name="refreshToken">refresh token для обновления</param>
     public AuthResponseDTO RefreshToken(string refreshToken)
     {
         try
@@ -193,6 +215,10 @@ public class AuthService : IAuthService
         }
     }
 
+    // <summary>
+    // валидация JWT токена
+    // </summary>
+    // <param name="token">JWT токен для проверки</param>
     public bool ValidateToken(string token)
     {
         try
@@ -217,14 +243,10 @@ public class AuthService : IAuthService
         catch (Exception ex) { return false; }
     }
     
-    private string GetHashPassword(string password)
-    {
-        byte[] bytepass = Encoding.ASCII.GetBytes(password);
-        var hashBytes = SHA256.HashData(bytepass);
-        
-        return Convert.ToBase64String(hashBytes);
-    }
-    
+    // <summary>
+    // генерация JWT токена для пользователя
+    // </summary>
+    // <param name="user">пользователь для которого генерируется токен</param>
     private string GenerateJwtToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -255,6 +277,9 @@ public class AuthService : IAuthService
         return tokenHandler.WriteToken(token);
     }
 
+    // <summary>
+    // генерация случайного refresh token
+    // </summary>
     private string GenerateRefreshToken()
     {
         var randomNumber = new byte[32];

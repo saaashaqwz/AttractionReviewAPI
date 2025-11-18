@@ -54,10 +54,16 @@ public class ExceptionHandlingMiddleware
 
             case UnauthorizedAccessException:
                 statusCode = HttpStatusCode.Unauthorized;
-                response.Message = "Доступ запрещен";
+                response.Message = "Требуется аутентификация";
                 response.ErrorCode = "UNAUTHORIZED";
                 break;
-
+            
+            case ForbiddenAccessException:
+                statusCode = HttpStatusCode.Forbidden;
+                response.Message = "Доступ запрещен";
+                response.ErrorCode = "FORBIDDEN";
+                break;
+            
             default:
                 statusCode = HttpStatusCode.InternalServerError;
                 response.Message = "Внутренняя ошибка сервера";
@@ -74,5 +80,13 @@ public class ExceptionHandlingMiddleware
         });
 
         await context.Response.WriteAsync(json);
+    }
+    
+    public class ForbiddenAccessException : Exception
+    {
+        public ForbiddenAccessException() : base("Доступ запрещен") { }
+        public ForbiddenAccessException(string message) : base(message) { }
+        public ForbiddenAccessException(string message, Exception innerException) 
+            : base(message, innerException) { }
     }
 }

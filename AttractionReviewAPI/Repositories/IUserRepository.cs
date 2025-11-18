@@ -4,8 +4,8 @@ public interface IUserRepository
 {
     User GetUserById(int id);
     User AddUser(User user);
-    bool DeleteUser(int id);
     User UpdateUser(int id, User user);
-    User ExistUser(string loginOrEmail);
+    bool DeleteUser(int id);
+    User ExistUser(string emailOrUsername);
     Role? RoleExist(int id);
 }
