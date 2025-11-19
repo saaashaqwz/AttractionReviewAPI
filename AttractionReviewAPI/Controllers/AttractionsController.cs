@@ -9,6 +9,7 @@ namespace AttractionReviewAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AttractionsController : ControllerBase
     {
         private readonly IAttractionService _attractionService;
